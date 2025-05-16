@@ -5,15 +5,16 @@
 #include <string>
 
 using namespace std;
+using namespace genv;
 
 class Widget {
 protected:
-    int _x, _y, _sx, _sy;
+    int _x, _y, _size_x, _size_y;
 public:
     Widget(int x, int y, int sx, int sy);
     virtual ~Widget() {}
     virtual void draw() = 0;
-    virtual void handle(genv::event ev) = 0;
+    virtual void handle(event ev) = 0;
 };
 
 class Button : public Widget {
@@ -22,7 +23,7 @@ class Button : public Widget {
 public:
     Button(int x, int y, int sx, int sy, const string& text);
     void draw() override;
-    void handle(genv::event ev) override;
+    void handle(event ev) override;
     bool is_pressed() const;
     void reset();
 };
