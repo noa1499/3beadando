@@ -18,8 +18,8 @@ public:
     AmobaGrid(int x, int y, int sx, int sy);
     virtual void draw() override;
     virtual void handle(event ev) override;
-    bool checkWin(int x, int y); // Győzelem ellenőrzése
-    bool checkDraw(); // Döntetlen ellenőrzése
+    bool checkWin(int x, int y);
+    bool checkDraw();
 };
 
 #endif

@@ -15,24 +15,30 @@ int main() {
 
     event ev;
     while(gin >> ev) {
-        gout << color(210, 180, 140) << move_to(0, 0) << box(400, 400);
+        // Háttérszín: világos lila (RGB: 230, 204, 255)
+        gout << color(230, 204, 255) << move_to(0, 0) << box(400, 400);
 
         if (!show_grid) {
-            gout << color(34, 139, 34)
+            // Start gomb rajzolása (sötét lila: RGB 75, 0, 130)
+            gout << color(75, 0, 130)
                  << move_to(150, 180)
                  << box(100, 40);
+
+            // Szöveg rajzolása (fehér)
             gout << color(255, 255, 255)
                  << move_to(170, 190)
                  << text("START");
 
+            // Kattintás kezelése
             if (ev.type == ev_mouse && ev.button == btn_left) {
                 if (ev.pos_x >= 150 && ev.pos_x <= 250 &&
                     ev.pos_y >= 180 && ev.pos_y <= 220) {
                     show_grid = true;
-                    grid = new AmobaGrid(5, 5, 390, 390);
+                    grid = new AmobaGrid(5, 5, 390, 390); // Pálya létrehozása
                 }
             }
         } else {
+            // Játék kezelése és rajzolása
             grid->handle(ev);
             grid->draw();
         }
@@ -40,6 +46,6 @@ int main() {
         gout << refresh;
     }
 
-    delete grid;
+    delete grid; // Memóriafelszabadítás
     return 0;
 }

@@ -20,7 +20,6 @@ bool AmobaGrid::checkWin(int x, int y) {
 
     for (int dir = 0; dir < 4; ++dir) {
         int count = 1;
-        // Előre
         for (int step = 1; step < 5; ++step) {
             int nx = x + dx[dir] * step;
             int ny = y + dy[dir] * step;
@@ -28,7 +27,6 @@ bool AmobaGrid::checkWin(int x, int y) {
             if (_grid[ny][nx] != player) break;
             count++;
         }
-        // Vissza
         for (int step = 1; step < 5; ++step) {
             int nx = x - dx[dir] * step;
             int ny = y - dy[dir] * step;
@@ -44,7 +42,6 @@ bool AmobaGrid::checkWin(int x, int y) {
     return false;
 }
 
-// Döntetlen ellenőrzése
 bool AmobaGrid::checkDraw() {
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 15; ++j) {
@@ -55,12 +52,12 @@ bool AmobaGrid::checkDraw() {
 }
 
 void AmobaGrid::draw() {
-    // Háttér
-    gout << color(255, 255, 255)
+    // Háttér: középső lila (RGB: 153, 102, 204)
+    gout << color(153, 102, 204)
          << move_to(_x, _y)
          << box(_size_x, _size_y);
 
-    // Rács vonalak
+    // Rács vonalak (fekete)
     gout << color(0, 0, 0);
     for (int i = 0; i <= 15; ++i) {
         gout << move_to(_x, _y + i * _cell_size)
@@ -69,22 +66,22 @@ void AmobaGrid::draw() {
              << line_to(_x + i * _cell_size, _y + _size_y);
     }
 
-    // Jelölések
+    // Jelölések (X: arany, O: ezüst)
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 15; ++j) {
             if (_grid[i][j] == 'X') {
-                gout << color(255, 0, 0)
+                gout << color(255, 215, 0) // Arany
                      << move_to(_x + j*_cell_size + 5, _y + i*_cell_size + 5)
                      << text("X");
             } else if (_grid[i][j] == 'O') {
-                gout << color(0, 0, 255)
+                gout << color(192, 192, 192) // Ezüst
                      << move_to(_x + j*_cell_size + 5, _y + i*_cell_size + 5)
                      << text("O");
             }
         }
     }
 
-    // Űzenet
+    // Győzelem/döntetlen üzenet
     if (_gameOver) {
         gout << font("LiberationSans-Regular.ttf", 40);
         if (_winner != ' ') {
