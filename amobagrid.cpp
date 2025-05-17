@@ -52,21 +52,18 @@ bool AmobaGrid::checkDraw() {
 }
 
 void AmobaGrid::draw() {
-    // Háttér: középső lila (RGB: 153, 102, 204)
-    gout << color(153, 102, 204)
-         << move_to(_x, _y)
-         << box(_size_x, _size_y);
+    // Háttér
+    gout << color(153, 102, 204) << move_to(_x, _y) << box(_size_x, _size_y);
 
-    // Rács vonalak (fekete)
+    // Rács
     gout << color(0, 0, 0);
     for (int i = 0; i <= 15; ++i) {
-        gout << move_to(_x, _y + i * _cell_size)
-             << line_to(_x + _size_x, _y + i * _cell_size);
-        gout << move_to(_x + i * _cell_size, _y)
-             << line_to(_x + i * _cell_size, _y + _size_y);
+        gout << move_to(_x, _y + i * _cell_size) << line_to(_x + _size_x, _y + i * _cell_size);
+        gout << move_to(_x + i * _cell_size, _y) << line_to(_x + i * _cell_size, _y + _size_y);
     }
 
-    // Jelölések (X: arany, O: ezüst)
+    // X és O jelölések (20-as betűmérettel)
+    gout << font("LiberationSans-Regular.ttf", 20); // Explicit méret
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 15; ++j) {
             if (_grid[i][j] == 'X') {
@@ -81,18 +78,17 @@ void AmobaGrid::draw() {
         }
     }
 
-    // Győzelem/döntetlen üzenet
+    // Győzelem üzenet
     if (_gameOver) {
         gout << font("LiberationSans-Regular.ttf", 40);
         if (_winner != ' ') {
-            gout << color(0, 0, 0)
-                 << move_to(_x + 100, _y + 200)
+            gout << color(0, 0, 0) << move_to(_x + 100, _y + 200)
                  << text("Győztes: ") << text(string(1, _winner));
         } else {
-            gout << color(0, 0, 0)
-                 << move_to(_x + 100, _y + 200)
+            gout << color(0, 0, 0) << move_to(_x + 100, _y + 200)
                  << text("Döntetlen!");
         }
+        gout << font("LiberationSans-Regular.ttf", 20); // Visszaállítás
     }
 }
 
@@ -111,7 +107,6 @@ void AmobaGrid::handle(event ev) {
     }
 }
 
-// Új metódusok a játék állapotának lekérdezéséhez
 bool AmobaGrid::isGameOver() const {
     return _gameOver;
 }

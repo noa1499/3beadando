@@ -9,8 +9,7 @@ Button::Button(int x, int y, int sx, int sy, const std::string& text)
     : Widget(x, y, sx, sy), _text(text), _pressed(false) {}
 
 void Button::draw() {
-    gout << move_to(_x, _y) << color(200,200,200);
-    gout << box(_size_x, _size_y);
+    gout << move_to(_x, _y) << color(200,200,200) << box(_size_x, _size_y);
     gout << color(0,0,0);
     gout << move_to(_x + 15, _y + _size_y / 2 - 10) << text(_text);
 }
