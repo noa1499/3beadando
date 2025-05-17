@@ -11,41 +11,68 @@ int main() {
     gout << font("LiberationSans-Regular.ttf", 20);
 
     bool show_grid = false;
+    bool gameOver = false;   // Tárolja a játék állapotát
+    char winner = ' ';       // Tárolja a győztest
     AmobaGrid* grid = nullptr;
 
     event ev;
     while(gin >> ev) {
-        // H�tt�rsz�n: vil�gos lila (RGB: 230, 204, 255)
+        // Háttérszín: világos lila
         gout << color(230, 204, 255) << move_to(0, 0) << box(400, 400);
 
         if (!show_grid) {
-            // Start gomb rajzol�sa (s�t�t lila: RGB 75, 0, 130)
+            // Start gomb rajzolása
             gout << color(75, 0, 130)
                  << move_to(150, 180)
                  << box(100, 40);
-
-            // Sz�veg rajzol�sa (feh�r)
             gout << color(255, 255, 255)
                  << move_to(170, 190)
                  << text("START");
 
-            // Kattint�s kezel�se
+            // Játék vége üzenet (ha van)
+            if (gameOver) {
+                gout << font("LiberationSans-Regular.ttf", 30);
+                if (winner != ' ') {
+                    gout << color(0, 0, 0)
+                         << move_to(120, 100)
+                         << text("Győztes: ") << text(string(1, winner));
+                } else {
+                    gout << color(0, 0, 0)
+                         << move_to(140, 100)
+                         << text("Döntetlen!");
+                }
+                gout << move_to(130, 250) << text("Új játékhoz kattints!");
+            }
+
+            // Kattintás kezelése
             if (ev.type == ev_mouse && ev.button == btn_left) {
                 if (ev.pos_x >= 150 && ev.pos_x <= 250 &&
                     ev.pos_y >= 180 && ev.pos_y <= 220) {
                     show_grid = true;
-                    grid = new AmobaGrid(5, 5, 390, 390); // P�lya l�trehoz�sa
+                    gameOver = false; // Új játék előtt állapotok visszaállítása
+                    winner = ' ';
+                    delete grid;       // Régi grid törlése (ha volt)
+                    grid = new AmobaGrid(5, 5, 390, 390);
                 }
             }
         } else {
-            // J�t�k kezel�se �s rajzol�sa
+            // Játék kezelése
             grid->handle(ev);
             grid->draw();
+
+            // Játék vége ellenőrzése
+            if (grid->isGameOver()) {
+                winner = grid->getWinner();
+                gameOver = true;
+                show_grid = false; // Visszatérés a start képernyőre
+                delete grid;
+                grid = nullptr;
+            }
         }
 
         gout << refresh;
     }
 
-    delete grid; // Mem�riafelszabad�t�s
+    delete grid;
     return 0;
 }

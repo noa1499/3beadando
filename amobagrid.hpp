@@ -20,6 +20,8 @@ public:
     virtual void handle(event ev) override;
     bool checkWin(int x, int y);
     bool checkDraw();
+    bool isGameOver() const;  // Új metódus
+    char getWinner() const;   // Új metódus
 };
 
 #endif

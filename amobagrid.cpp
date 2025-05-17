@@ -70,11 +70,11 @@ void AmobaGrid::draw() {
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 15; ++j) {
             if (_grid[i][j] == 'X') {
-                gout << color(255, 215, 0) // Arany
+                gout << color(255, 215, 0)
                      << move_to(_x + j*_cell_size + 5, _y + i*_cell_size + 5)
                      << text("X");
             } else if (_grid[i][j] == 'O') {
-                gout << color(192, 192, 192) // Ezüst
+                gout << color(192, 192, 192)
                      << move_to(_x + j*_cell_size + 5, _y + i*_cell_size + 5)
                      << text("O");
             }
@@ -109,4 +109,13 @@ void AmobaGrid::handle(event ev) {
             }
         }
     }
+}
+
+// Új metódusok a játék állapotának lekérdezéséhez
+bool AmobaGrid::isGameOver() const {
+    return _gameOver;
+}
+
+char AmobaGrid::getWinner() const {
+    return _winner;
 }
