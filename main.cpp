@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     gout.open(400, 400);
-    gout << font("LiberationSans-Regular.ttf", 20); // Alapértelmezett betűméret
+    gout << font("LiberationSans-Regular.ttf", 20);
 
     bool show_grid = false;
     bool gameOver = false;
@@ -17,30 +17,28 @@ int main() {
 
     event ev;
     while(gin >> ev) {
-        // Háttér
         gout << color(230, 204, 255) << move_to(0, 0) << box(400, 400);
 
         if (!show_grid) {
-            // Start gomb
             gout << color(75, 0, 130) << move_to(150, 180) << box(100, 40);
-            gout << font("LiberationSans-Regular.ttf", 20); // Explicit méret a Start szöveghez
             gout << color(255, 255, 255) << move_to(170, 190) << text("START");
 
-            // Játék vége üzenet
             if (gameOver) {
                 gout << font("LiberationSans-Regular.ttf", 30);
+                gout << color(0, 0, 0);
                 if (winner != ' ') {
-                    gout << color(0, 0, 0) << move_to(120, 100)
+                    gout << move_to(140, 120)
                          << text("Győztes: ") << text(string(1, winner));
                 } else {
-                    gout << color(0, 0, 0) << move_to(140, 100)
+                    gout << move_to(160, 120)
                          << text("Döntetlen!");
                 }
-                gout << font("LiberationSans-Regular.ttf", 20); // Visszaállítás
-                gout << move_to(130, 250) << text("Új játékhoz kattints!");
+
+                gout << font("LiberationSans-Regular.ttf", 20);
+                gout << move_to(50, 250)
+                     << text("Új játékhoz kattints a START gombra!");
             }
 
-            // Kattintás kezelése
             if (ev.type == ev_mouse && ev.button == btn_left) {
                 if (ev.pos_x >= 150 && ev.pos_x <= 250 &&
                     ev.pos_y >= 180 && ev.pos_y <= 220) {
